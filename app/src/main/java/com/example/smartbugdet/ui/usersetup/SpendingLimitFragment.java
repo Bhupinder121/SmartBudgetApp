@@ -24,7 +24,6 @@ import com.google.android.material.textfield.TextInputLayout;
 public class SpendingLimitFragment extends Fragment {
 
     private ChipGroup chipGroupQuickLimits;
-    private Chip chip500, chip1000, chip1500;
     private TextInputLayout tilCustomLimit;
     private TextInputEditText etCustomLimit;
     private MaterialButton btnHelpMeDecide;
@@ -48,9 +47,6 @@ public class SpendingLimitFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         chipGroupQuickLimits = view.findViewById(R.id.chip_group_quick_limits);
-        chip500 = view.findViewById(R.id.chip_limit_500);
-        chip1000 = view.findViewById(R.id.chip_limit_1000);
-        chip1500 = view.findViewById(R.id.chip_limit_1500);
         tilCustomLimit = view.findViewById(R.id.til_custom_limit);
         etCustomLimit = view.findViewById(R.id.et_custom_limit);
         btnHelpMeDecide = view.findViewById(R.id.btn_limit_help_me_decide);

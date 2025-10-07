@@ -3,6 +3,7 @@ package com.example.smartbugdet.network;
 import com.example.smartbugdet.model.Transaction;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -59,4 +60,7 @@ public interface ApiService {
     // GET request to fetch all transactions for the user
     @GET("user/transactions")
     Call<AllTransactionsResponse> getAllTransactions(@Header("Authorization") String authToken);
+
+    @POST("/update/spending-limit")
+    Call<ResponseBody> updateSpendingLimit(@Header("Authorization") String authToken, @Body SpendingLimitRequest request);
 }

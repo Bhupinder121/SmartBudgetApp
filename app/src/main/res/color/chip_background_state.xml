@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Stroke color when chip is selected (checked) -->
+    <!-- Background color when chip is selected (checked) -->
     <item android:color="@color/active_nav_icon_tint" android:state_checked="true"/>
-    <!-- Default stroke color (unselected) -->
-    <item android:color="@color/material_on_surface_emphasis_medium"/>
+    <!-- Default background color (unselected) -->
+    <item android:color="@android:color/transparent"/>
 </selector>

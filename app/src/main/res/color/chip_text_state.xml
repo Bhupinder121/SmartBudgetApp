@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="#1C1C1E" android:state_checked="true"/>
-    <item android:color="#BDBDBD"/>
+    <!-- Text color when chip is selected (checked) -->
+    <item android:color="@color/dialog_toggle_selected_text" android:state_checked="true"/>
+    <!-- Default text color (unselected) -->
+    <item android:color="@color/dialog_toggle_unselected_text"/>
 </selector>
