@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <LinearLayout
+        android:id="@+id/layout_transaction_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/tv_transaction_amount"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp">
+
+        <TextView
+            android:id="@+id/tv_transaction_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction Name"
+            android:textColor="#F2F2F7"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/tv_transaction_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jan 01, 2024"
+            android:textColor="#AEAEB2"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/tv_balance_before_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prev. Bal: ₹0.00"
+            android:textColor="#AEAEB2"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_transaction_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="- ₹100.00"
+        android:textColor="#FF453A"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

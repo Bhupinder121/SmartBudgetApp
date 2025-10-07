@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="active_nav_icon_tint">#FFD600</color>   <!-- Example: Bright Yellow -->
+    <color name="inactive_nav_icon_tint">#BDBDBD</color>
+    <color name="dialog_toggle_selected_text">#1C1C1E</color>
+    <color name="dialog_toggle_unselected_text">#E0E0E0</color>
+    <color name="expense_red">#F44336</color>
+    <color name="income_green">#4CAF50</color>
+    <color name="default_text_color">#E0E0E0</color>
+    <color name="material_on_surface_emphasis_medium">#BDBDBD</color>
+
+    <!-- Spending Limit Bar Colors -->
+    <color name="limit_bar_inactive_color">#606060</color>
+    <color name="limit_bar_healthy_active_color">#4CAF50</color>
+    <color name="limit_bar_manageable_active_color">#FFEB3B</color>
+    <color name="limit_bar_should_stop_active_color">#FF9800</color>
+    <color name="limit_bar_over_limit_active_color">#F44336</color>
+
+    <!-- Spending Limit Label Colors -->
+    <color name="limit_label_inactive_color">#BDBDBD</color>
+    <color name="limit_label_active_color">#FFFFFFFF</color>
+</resources>

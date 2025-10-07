@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/up_zig_zag_arrow_svgrepo_com"
+    android:fromDegrees="180" />

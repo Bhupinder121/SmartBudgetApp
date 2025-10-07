@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C1E"
+    tools:context=".LoginActivity">
+
+    <!-- Top "Welcome Back" Text -->
+    <TextView
+        android:id="@+id/tv_login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Welcome Back"
+        android:textColor="@android:color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_login_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Access your financial journey"
+        android:textColor="#BDBDBD"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
+
+
+    <!-- Main Form Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_login_form"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="48dp"
+        app:cardBackgroundColor="#2C2C2E"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_subtitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Email -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="#E0E0E0"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <!-- OTP -->
+            <TextView
+                android:id="@+id/tv_login_otp_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="OTP"
+                android:textColor="#E0E0E0"
+                android:textSize="14sp"
+                android:visibility="gone" /> <!-- Initially hidden -->
+
+            <EditText
+                android:id="@+id/et_login_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword"
+                android:hint="Enter OTP"
+                android:textColorHint="#BDBDBD"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:visibility="gone" /> <!-- Initially hidden -->
+
+
+            <!-- Log in/Send OTP Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_login_otp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_yellow_button"
+                android:text="Send OTP"
+                android:textAllCaps="false"
+                android:textColor="#1C1C1E"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Continue with Google Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_google_login"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bordered_dark_button"
+                android:drawableStart="@drawable/ic_google_logo"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="Continue with Google"
+                android:textAllCaps="false"
+                android:textColor="#E0E0E0"
+                android:gravity="center"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Sign Up Text -->
+    <TextView
+        android:id="@+id/tv_bottom_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Don\'t have an account? Sign Up"
+        android:textColor="#BDBDBD"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- ProgressBar for loading -->
+    <ProgressBar
+        android:id="@+id/pb_login_loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
