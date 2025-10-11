@@ -50,3 +50,16 @@ This project follows modern Android development practices and leverages a robust
 To get the project running on your local machine, follow these steps:
 
 **1. Clone the repository:**
+
+
+**2. Google Services Configuration:**
+This project uses Google Sign-In, which requires configuration through the Google Cloud Console / Firebase.
+-   Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+-   Add an Android app to the project with the package name `com.example.smartbugdet`.
+-   Follow the instructions to download the `google-services.json` file.
+-   Place the downloaded `google-services.json` file in the `app/` directory of the project.
+
+**3. Configure Backend URL:**
+The app needs to know the base URL of your backend server.
+-   Open the `app/src/main/java/com/example/smartbugdet/network/RetrofitClient.java` file.
+-   Change the `BASE_URL` constant to point to your deployed backend.
