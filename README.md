@@ -9,7 +9,7 @@ SmartBudget is a modern Android application designed to help users track their i
 
 | Home Screen                                     | Transactions Screen                               | Budgets Screen                                  |
 | :----------------------------------------------: | :-----------------------------------------------: | :---------------------------------------------: |
-| *(Your Screenshot Here)*                        | *(Your Screenshot Here)*                         | *(Your Screenshot Here)*                       |
+| ![Screenshot_20251011_231222_smartbugdet](https://github.com/user-attachments/assets/94018bd9-7cb1-45e3-94ad-4b5adeb6dacb)| ![Screenshot_20251011_234645_smartbugdet](https://github.com/user-attachments/assets/b60d7e56-f313-4019-901f-23385f4be466)
 | **Fig 1.** At-a-glance financial summary.        | **Fig 2.** Detailed and filterable transaction list. | **Fig 3.** Tools for setting spending limits.    |
 
 ## Features
