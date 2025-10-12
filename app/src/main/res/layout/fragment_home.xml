@@ -17,10 +17,11 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
+            android:layout_marginBottom="16dp"
             android:text="Welcome Back, "
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="24sp" />
+            android:textColor="@android:color/white"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <!-- Balance Card -->
         <androidx.cardview.widget.CardView
@@ -225,7 +226,7 @@
         <!-- Today's Transactions Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="#2C2C2E"
             app:cardCornerRadius="16dp"
@@ -272,7 +273,7 @@
                     android:textSize="14sp"
                     android:gravity="center"
                     android:layout_marginTop="16dp"
-                    android:visibility="gone" /> 
+                    android:visibility="gone" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

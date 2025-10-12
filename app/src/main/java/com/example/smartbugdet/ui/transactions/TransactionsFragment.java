@@ -1,5 +1,6 @@
 package com.example.smartbugdet.ui.transactions;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,15 +23,27 @@ import com.example.smartbugdet.network.AllTransactionsResponse;
 import com.example.smartbugdet.network.ApiService;
 import com.example.smartbugdet.network.RetrofitClient;
 import com.example.smartbugdet.util.AuthTokenManager;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
@@ -47,8 +60,11 @@ public class TransactionsFragment extends Fragment {
     private List<Transaction> allTransactions;
     private List<Transaction> filteredList;
 
+    private LineChart lineChart;
     private ChipGroup chipGroupTransactionType;
     private ChipGroup chipGroupDateRange;
+    private ChipGroup chipGroupGraphFilter;
+    private Chip chipGraphIncome, chipGraphExpense;
 
     private ProgressBar pbTransactionsLoading;
     private TextView tvNoTransactionsMessage;
@@ -76,8 +92,12 @@ public class TransactionsFragment extends Fragment {
 
         // Initialize all views
         rvTransactions = view.findViewById(R.id.rv_transactions);
+        lineChart = view.findViewById(R.id.line_chart_transactions);
         chipGroupTransactionType = view.findViewById(R.id.chip_group_transaction_type);
         chipGroupDateRange = view.findViewById(R.id.chip_group_date_range);
+        chipGroupGraphFilter = view.findViewById(R.id.chip_group_graph_filter);
+        chipGraphIncome = view.findViewById(R.id.chip_graph_income);
+        chipGraphExpense = view.findViewById(R.id.chip_graph_expense);
         pbTransactionsLoading = view.findViewById(R.id.pb_transactions_loading);
         tvNoTransactionsMessage = view.findViewById(R.id.tv_no_transactions_message);
         tvSpendingLabel = view.findViewById(R.id.tv_spending_label);
@@ -86,7 +106,7 @@ public class TransactionsFragment extends Fragment {
         tvFilter1MonthSummary = view.findViewById(R.id.tv_filter_1month_summary);
         tvFilter1YearSummary = view.findViewById(R.id.tv_filter_1year_summary);
 
-        // Setup RecyclerView with the new adapter
+        // Setup RecyclerView
         transactionAdapter = new TransactionListAdapter(getContext(), filteredList);
         rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
         rvTransactions.setAdapter(transactionAdapter);
@@ -94,13 +114,21 @@ public class TransactionsFragment extends Fragment {
         // Setup Listeners
         setupChipListeners();
         setupSummaryCardListeners();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         fetchAllTransactions();
     }
 
     private void setupChipListeners() {
         chipGroupTransactionType.setOnCheckedChangeListener((group, checkedId) -> applyFilters());
         chipGroupDateRange.setOnCheckedChangeListener((group, checkedId) -> applyFilters());
+        
+        View.OnClickListener graphChipClickListener = v -> applyFilters();
+        chipGraphIncome.setOnClickListener(graphChipClickListener);
+        chipGraphExpense.setOnClickListener(graphChipClickListener);
     }
 
     private void setupSummaryCardListeners() {
@@ -119,6 +147,7 @@ public class TransactionsFragment extends Fragment {
 
         pbTransactionsLoading.setVisibility(View.VISIBLE);
         rvTransactions.setVisibility(View.GONE);
+        lineChart.setVisibility(View.GONE);
         tvNoTransactionsMessage.setVisibility(View.GONE);
 
         apiService.getAllTransactions("Bearer " + authToken).enqueue(new Callback<AllTransactionsResponse>() {
@@ -128,7 +157,11 @@ public class TransactionsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null && response.body().getTransactions() != null) {
                     allTransactions.clear();
                     allTransactions.addAll(response.body().getTransactions());
-                    Log.d(TAG, "Successfully fetched " + allTransactions.size() + " transactions.");
+
+                    // Sort all transactions by date in descending order immediately after fetching
+                    Collections.sort(allTransactions, Comparator.comparing(Transaction::getDate).reversed());
+
+                    Log.d(TAG, "Successfully fetched and sorted " + allTransactions.size() + " transactions.");
                     applyFilters();
                 } else {
                     tvNoTransactionsMessage.setText("Failed to load transactions.");
@@ -169,6 +202,7 @@ public class TransactionsFragment extends Fragment {
                 .collect(Collectors.toList());
 
         calculateAndDisplayRates(dateFilteredTransactions);
+        setupLineChart(dateFilteredTransactions);
 
         final String finalTypeFilter = typeFilter;
         List<Transaction> finalList = dateFilteredTransactions.stream()
@@ -210,6 +244,89 @@ public class TransactionsFragment extends Fragment {
 
         tvSpendingLabel.setText(String.format(Locale.getDefault(), "Spending @ %d%%", spendingPercentage));
         tvIncomeLabel.setText(String.format(Locale.getDefault(), "Income @ %d%%", incomePercentage));
+    }
+
+    private void setupLineChart(List<Transaction> transactions) {
+        if (transactions == null || transactions.isEmpty() || getContext() == null) {
+            lineChart.setVisibility(View.GONE);
+            return;
+        }
+        lineChart.setVisibility(View.VISIBLE);
+
+        SimpleDateFormat dayFormatter = new SimpleDateFormat("MMM dd", Locale.getDefault());
+        Map<String, float[]> dailyTotals = new LinkedHashMap<>();
+
+        for (Transaction t : transactions) {
+            try {
+                Date date = isoParser.parse(t.getDate());
+                String dayKey = dayFormatter.format(date);
+                dailyTotals.putIfAbsent(dayKey, new float[]{0, 0}); // 0 for income, 1 for expense
+                float[] amounts = dailyTotals.get(dayKey);
+                if ("income".equalsIgnoreCase(t.getType())) {
+                    amounts[0] += (float) t.getAmount();
+                } else {
+                    amounts[1] += (float) t.getAmount();
+                }
+            } catch (ParseException e) {
+                Log.e(TAG, "Error parsing date for chart: " + t.getDate(), e);
+            }
+        }
+
+        List<String> labels = new ArrayList<>(dailyTotals.keySet());
+        
+        List<Entry> incomeEntries = new ArrayList<>();
+        List<Entry> expenseEntries = new ArrayList<>();
+        int i = 0;
+        for (String dayKey : labels) {
+            float[] totals = dailyTotals.get(dayKey);
+            if (totals != null) {
+                incomeEntries.add(new Entry(i, totals[0]));
+                expenseEntries.add(new Entry(i, totals[1]));
+                i++;
+            }
+        }
+
+        LineDataSet incomeDataSet = new LineDataSet(incomeEntries, "Income");
+        incomeDataSet.setColor(ContextCompat.getColor(getContext(), R.color.income_green));
+        incomeDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.income_green));
+        incomeDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        incomeDataSet.setDrawFilled(true);
+        incomeDataSet.setFillColor(ContextCompat.getColor(getContext(), R.color.income_green));
+        incomeDataSet.setFillAlpha(100);
+
+        LineDataSet expenseDataSet = new LineDataSet(expenseEntries, "Expense");
+        expenseDataSet.setColor(ContextCompat.getColor(getContext(), R.color.expense_red));
+        expenseDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.expense_red));
+        expenseDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        expenseDataSet.setDrawFilled(true);
+        expenseDataSet.setFillColor(ContextCompat.getColor(getContext(), R.color.expense_red));
+        expenseDataSet.setFillAlpha(100);
+        
+        incomeDataSet.setVisible(chipGraphIncome.isChecked());
+        expenseDataSet.setVisible(chipGraphExpense.isChecked());
+
+        LineData lineData = new LineData(incomeDataSet, expenseDataSet);
+        lineData.setValueTextColor(Color.WHITE);
+        lineData.setValueTextSize(10f);
+
+        lineChart.getDescription().setEnabled(false);
+        lineChart.getLegend().setEnabled(false);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setDrawGridLines(false);
+
+        lineChart.getAxisLeft().setTextColor(Color.WHITE);
+        lineChart.getAxisLeft().setDrawGridLines(false);
+        lineChart.getAxisRight().setEnabled(false);
+
+        lineChart.setData(lineData);
+        lineChart.animateY(1000, Easing.EaseInOutCubic); // Smoother vertical animation
+        lineChart.invalidate();
     }
 
     private void updateSummaryFilterUI() {

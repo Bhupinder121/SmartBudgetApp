@@ -1,291 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1C1C1E"
+    android:fillViewport="true"
     tools:context=".ui.transactions.TransactionsFragment">
 
-    <!-- Screen Title -->
-    <TextView
-        android:id="@+id/tv_transactions_title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text="Transactions"
-        android:textColor="@android:color/white"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingBottom="24dp">
 
-    <!-- Summary Card -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_summary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="#2C2C2E"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_transactions_title">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <!-- Screen Title -->
+        <TextView
+            android:id="@+id/tv_transactions_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:text="Transactions"
+            android:textColor="@android:color/white"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_spending_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:drawablePadding="8dp"
-                android:text="Spending @ 0%"
-                android:textColor="#E0E0E0"
-                android:textSize="12dp"
-                app:drawableStartCompat="@drawable/down_zig_zag_arrow_svgrepo_com"
-                app:drawableTint="@color/expense_red"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toStartOf="@+id/time_filters_summary"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <!-- Summary Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="#2C2C2E"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_transactions_title">
 
-            <TextView
-                android:id="@+id/tv_income_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:drawablePadding="8dp"
-                android:text="Income @ 0%"
-                android:textSize="12dp"
-                android:textColor="#E0E0E0"
-                app:drawableStartCompat="@drawable/up_zig_zag_arrow_svgrepo_com"
-                app:drawableTint="@color/income_green"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toStartOf="@+id/time_filters_summary"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_spending_label" />
-
-            <LinearLayout
-                android:id="@+id/time_filters_summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tv_filter_recent_summary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="4dp"
-                    android:text="Recent"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_filter_1month_summary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:paddingStart="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="4dp"
-                    android:text="1 Month"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_filter_1year_summary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:paddingStart="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="4dp"
-                    android:text="1 Year"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_summary_insight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="You should lower your spending on online food ordering"
-                android:textColor="#BDBDBD"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_income_label" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <!-- Transactions List Card -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_transactions_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#2C2C2E"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_summary">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp">
-
-            <!-- Filters using ChipGroups -->
-            <HorizontalScrollView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_spending_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:drawablePadding="8dp"
+                    android:text="Spending @ 0%"
+                    android:textColor="#E0E0E0"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/down_zig_zag_arrow_svgrepo_com"
+                    app:drawableTint="@color/expense_red"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@+id/time_filters_summary"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_income_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:drawablePadding="8dp"
+                    android:text="Income @ 0%"
+                    android:textSize="12sp"
+                    android:textColor="#E0E0E0"
+                    app:drawableStartCompat="@drawable/up_zig_zag_arrow_svgrepo_com"
+                    app:drawableTint="@color/income_green"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@+id/time_filters_summary"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_spending_label" />
 
                 <LinearLayout
+                    android:id="@+id/time_filters_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="8dp">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chip_group_transaction_type"
+                    <TextView
+                        android:id="@+id/tv_filter_recent_summary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="Recent"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_filter_1month_summary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="1 Month"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_filter_1year_summary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="1 Year"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_summary_insight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="You should lower your spending on online food ordering"
+                    android:textColor="#BDBDBD"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_income_label" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Graph Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_graph"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="#2C2C2E"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_summary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_graph_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Daily Activity"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_graph_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         app:chipSpacingHorizontal="8dp"
-                        app:singleSelection="true">
+                        app:singleSelection="false">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_filter_income"
+                            android:id="@+id/chip_graph_income"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checked="true"
                             android:text="Income"
                             android:textColor="@color/chip_text_state"
-                            app:chipBackgroundColor="@color/chip_type_background_state"
+                            app:chipBackgroundColor="@color/chip_background_state"
                             app:chipStrokeColor="@color/chip_stroke_state"
                             app:chipStrokeWidth="1dp" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_filter_expense"
+                            android:id="@+id/chip_graph_expense"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="Expense"
                             android:textColor="@color/chip_text_state"
-                            app:chipBackgroundColor="@color/chip_type_background_state"
+                            app:chipBackgroundColor="@color/chip_background_state"
                             app:chipStrokeColor="@color/chip_stroke_state"
                             app:chipStrokeWidth="1dp" />
 
                     </com.google.android.material.chip.ChipGroup>
+                </RelativeLayout>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chip_group_date_range"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        app:chipSpacingHorizontal="8dp"
-                        app:singleSelection="true">
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart_transactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_filter_7days"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="7 days"
-                            android:textColor="@color/chip_text_state"
-                            app:chipBackgroundColor="@color/chip_date_background_state"
-                            app:chipStrokeColor="@color/chip_stroke_state"
-                            app:chipStrokeWidth="1dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_filter_month"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Month"
-                            android:textColor="@color/chip_text_state"
-                            app:chipBackgroundColor="@color/chip_date_background_state"
-                            app:chipStrokeColor="@color/chip_stroke_state"
-                            app:chipStrokeWidth="1dp" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_filter_year"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1 Year"
-                            android:textColor="@color/chip_text_state"
-                            app:chipBackgroundColor="@color/chip_date_background_state"
-                            app:chipStrokeColor="@color/chip_stroke_state"
-                            app:chipStrokeWidth="1dp" />
-                    </com.google.android.material.chip.ChipGroup>
-                </LinearLayout>
-            </HorizontalScrollView>
+        <!-- Transactions List Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_transactions_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="#2C2C2E"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_graph">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_transactions"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
-                tools:listitem="@layout/list_item_transaction" />
-
-            <TextView
-                android:id="@+id/tv_no_transactions_message"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="No transactions found for the selected period."
-                android:textColor="#BDBDBD"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp">
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <!-- Filters using ChipGroups -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
 
-    <!-- ProgressBar for loading -->
-    <ProgressBar
-        android:id="@+id/pb_transactions_loading"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_group_transaction_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_filter_income"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Income"
+                                android:textColor="@color/chip_text_state"
+                                app:chipBackgroundColor="@color/chip_type_background_state"
+                                app:chipStrokeColor="@color/chip_stroke_state"
+                                app:chipStrokeWidth="1dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_filter_expense"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="Expense"
+                                android:textColor="@color/chip_text_state"
+                                app:chipBackgroundColor="@color/chip_type_background_state"
+                                app:chipStrokeColor="@color/chip_stroke_state"
+                                app:chipStrokeWidth="1dp" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_group_date_range"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            app:chipSpacingHorizontal="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_filter_7days"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="7 days"
+                                android:textColor="@color/chip_text_state"
+                                app:chipBackgroundColor="@color/chip_date_background_state"
+                                app:chipStrokeColor="@color/chip_stroke_state"
+                                app:chipStrokeWidth="1dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_filter_month"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Month"
+                                android:textColor="@color/chip_text_state"
+                                app:chipBackgroundColor="@color/chip_date_background_state"
+                                app:chipStrokeColor="@color/chip_stroke_state"
+                                app:chipStrokeWidth="1dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_filter_year"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1 Year"
+                                android:textColor="@color/chip_text_state"
+                                app:chipBackgroundColor="@color/chip_date_background_state"
+                                app:chipStrokeColor="@color/chip_stroke_state"
+                                app:chipStrokeWidth="1dp" />
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_transactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/list_item_transaction" />
+
+                <TextView
+                    android:id="@+id/tv_no_transactions_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="No transactions found for the selected period."
+                    android:textColor="#BDBDBD"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ProgressBar for loading -->
+        <ProgressBar
+            android:id="@+id/pb_transactions_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

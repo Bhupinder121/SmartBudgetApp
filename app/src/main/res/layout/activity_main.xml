@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1C1C1E"
-    tools:context=".MainActivity"> <!-- Changed context to .Home -->
+    tools:context=".MainActivity">
 
-    <!-- Fragment Container: This is where fragments will be displayed -->
+    <!-- Fragment Container -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_container"
         android:layout_width="0dp"
@@ -31,15 +31,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- NOTE: Replace src with your actual drawable icons if different -->
-        <!-- ID Naming Convention: nav_<conceptual_name> -->
         <ImageView
             android:id="@+id/nav_home"
             android:layout_width="0dp"
             android:layout_height="28dp"
             android:layout_weight="1"
             android:src="@drawable/house_regular_full"
-            app:tint="#FFD600" /> <!-- Assuming Home is initially selected -->
+            app:tint="#FFD600" />
         <ImageView
             android:id="@+id/nav_transactions"
             android:layout_width="0dp"
@@ -55,7 +53,7 @@
             android:layout_weight="1"
             android:src="@drawable/circle_plus_regular_full"
             android:contentDescription="Add Transaction"
-            app:tint="#BDBDBD"/> <!-- This is treated as a FAB/action button -->
+            app:tint="#BDBDBD"/>
         <ImageView
             android:id="@+id/nav_budgets"
             android:layout_width="0dp"
@@ -72,7 +70,17 @@
             android:src="@drawable/outline_account_circle_24"
             android:contentDescription="Profile"
             app:tint="#BDBDBD"/>
-
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_chat_bubble"
+        app:backgroundTint="@color/active_nav_icon_tint"
+        app:tint="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

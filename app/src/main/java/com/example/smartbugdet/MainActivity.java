@@ -34,10 +34,12 @@ import com.example.smartbugdet.network.GenericMessageResponse;
 import com.example.smartbugdet.network.RetrofitClient;
 import com.example.smartbugdet.network.TransactionRequest;
 import com.example.smartbugdet.ui.budgets.BudgetsFragment;
+import com.example.smartbugdet.ui.chat.ChatDialogFragment;
 import com.example.smartbugdet.ui.home.HomeFragment;
 import com.example.smartbugdet.ui.profile.ProfileFragment;
 import com.example.smartbugdet.ui.transactions.TransactionsFragment;
 import com.example.smartbugdet.util.AuthTokenManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView fabAddTransaction;
     private ImageView navBudgets;
     private ImageView navProfile;
+    private FloatingActionButton fabChat;
     private ImageView currentSelectedNavView;
 
     // For Add Transaction Dialog
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddTransaction = findViewById(R.id.fab_add_transaction);
         navBudgets = findViewById(R.id.nav_budgets);
         navProfile = findViewById(R.id.nav_profile);
+        fabChat = findViewById(R.id.fab_chat);
 
         selectedDateCalendar = Calendar.getInstance(); // Initialize calendar
 
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         navProfile.setOnClickListener(v -> loadFragment(new ProfileFragment(), navProfile));
 
         fabAddTransaction.setOnClickListener(v -> showAddTransactionDialog());
+        fabChat.setOnClickListener(v -> showChatDialog());
     }
 
     private void loadFragment(Fragment fragment, ImageView selectedNavView) {
@@ -111,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
             selectedNavView.setColorFilter(ContextCompat.getColor(this, R.color.active_nav_icon_tint));
             currentSelectedNavView = selectedNavView;
         }
+    }
+
+    private void showChatDialog() {
+        ChatDialogFragment chatDialogFragment = new ChatDialogFragment();
+        chatDialogFragment.show(getSupportFragmentManager(), "ChatDialog");
     }
 
     private void showAddTransactionDialog() {
@@ -206,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             double balanceBeforeTransaction = 0.0; // Default value
             Fragment currentHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_container);
             if (currentHostFragment instanceof HomeFragment) {
-                balanceBeforeTransaction = ((HomeFragment) currentHostFragment).getCurrentTotalBalance();
+//                balanceBeforeTransaction = ((HomeFragment) currentHostFragment).getCurrentTotalBalance();
                 // HomeFragment's getCurrentTotalBalance returns 0.0 or -1.0 on error,
                 // which is acceptable as a default if we can't get the real balance.
                 Log.d(TAG, "Retrieved balanceBeforeTransaction from HomeFragment: " + balanceBeforeTransaction);
@@ -298,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                     // Attempt to refresh HomeFragment if it's visible
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_container);
                     if (currentFragment instanceof HomeFragment) {
-                        ((HomeFragment) currentFragment).refreshAllData(); // Corrected method call
+//                        ((HomeFragment) currentFragment).refreshAllData(); // Corrected method call
                         Log.d(TAG, "HomeFragment found, refreshAllData() requested.");
                     } else {
                         Log.d(TAG, "HomeFragment not currently visible, no refresh sent.");

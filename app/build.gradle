@@ -53,4 +53,7 @@ dependencies {
     implementation libs.retrofit2.retrofit // Use the latest version
     implementation libs.converter.gson
     implementation libs.security.crypto.v110alpha06
+
+    implementation libs.mpandroidchart
+
 }

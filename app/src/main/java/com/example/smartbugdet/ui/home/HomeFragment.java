@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
     private boolean isUserInfoLoading = false;
 
     private NumberFormat currencyFormatter;
+    private double dailySpendingLimit = 0; // To store the limit from the summary
 
     @Nullable
     @Override
@@ -179,7 +180,6 @@ public class HomeFragment extends Fragment {
                 } else if (response.code() == 401) {
                     Log.w(TAG, "User info call failed due to auth: " + response.code());
                     if (tvUsernameGreeting != null) tvUsernameGreeting.setText("Welcome Back!");
-                    // Full logout is handled by other calls if they also fail with 401
                 } else {
                     Log.e(TAG, "Failed to fetch user info. " + parseErrorBody(response));
                     tvUsernameGreeting.setText("Welcome Back!");
@@ -213,13 +213,8 @@ public class HomeFragment extends Fragment {
                     HomeSummaryResponse summary = response.body().get(0);
                     if (summary != null) {
                         tvTotalBalanceValue.setText(currencyFormatter.format(summary.getTotalBalance()));
-                        tvIncomeValue.setText(currencyFormatter.format(summary.getIncomeToday()));
-                        tvExpenseValue.setText(currencyFormatter.format(summary.getExpenseToday()));
-                        String dailySummaryText = String.format(Locale.getDefault(), "%s spent of %s daily limit",
-                                currencyFormatter.format(summary.getExpenseToday()),
-                                currencyFormatter.format(summary.getDailySpendingLimit()));
-                        tvDailySpendingSummary.setText(dailySummaryText);
-                        updateSpendingLimitUI(summary.getExpenseToday(), summary.getDailySpendingLimit());
+                        dailySpendingLimit = summary.getDailySpendingLimit(); // Store the limit
+                        // Income and Expense are now calculated from the transactions list
                     } else {
                         Log.e(TAG, "Home summary data was null despite successful response.");
                         setSummaryPlaceholders("N/A - Data Error");
@@ -227,16 +222,15 @@ public class HomeFragment extends Fragment {
                     }
                 } else if (response.isSuccessful() && (response.body() == null || response.body().isEmpty())) {
                     Log.w(TAG, "Home summary data is empty or null.");
-                    setSummaryPlaceholders("N/A"); // Sets all placeholders including resetting bars
-                }
-                 else if (response.code() == 401) {
+                    setSummaryPlaceholders("N/A");
+                } else if (response.code() == 401) {
                     Toast.makeText(getContext(), "Session expired. Please log in again.", Toast.LENGTH_LONG).show();
                     handleLogout();
                 } else {
                     String errorMsg = parseErrorBody(response);
                     Log.e(TAG, "Failed to fetch home summary. " + errorMsg);
                     Toast.makeText(getContext(), "Failed to load summary: " + errorMsg, Toast.LENGTH_LONG).show();
-                    setSummaryPlaceholders("N/A - Error"); // Sets all placeholders including resetting bars
+                    setSummaryPlaceholders("N/A - Error");
                 }
             }
 
@@ -247,7 +241,7 @@ public class HomeFragment extends Fragment {
                 if (!isAdded() || getContext() == null) return;
                 Log.e(TAG, "Fetch home summary failed: " + t.getMessage(), t);
                 Toast.makeText(getContext(), "Network error loading summary. Check connection.", Toast.LENGTH_LONG).show();
-                setSummaryPlaceholders("Error"); // Sets all placeholders including resetting bars
+                setSummaryPlaceholders("Error");
             }
         });
     }
@@ -285,7 +279,7 @@ public class HomeFragment extends Fragment {
         else if (percentageSpent > 0.50) tvLimitLabel3.setTextColor(labelColorActive);
         else if (percentageSpent > 0.25) tvLimitLabel2.setTextColor(labelColorActive);
         else if (percentageSpent > 0) tvLimitLabel1.setTextColor(labelColorActive);
-        else if (dailySpendingLimit > 0) tvLimitLabel1.setTextColor(labelColorActive); // Healthy active if limit set & 0 spent
+        else if (dailySpendingLimit > 0) tvLimitLabel1.setTextColor(labelColorActive);
     }
 
     private void fetchTodaysTransactions(String authToken) {
@@ -309,6 +303,27 @@ public class HomeFragment extends Fragment {
                     transactionList.addAll(fetchedTransactions);
                     transactionAdapter.notifyDataSetChanged();
 
+                    // Calculate today's spending and income from the transaction list
+                    double todaysExpenses = 0;
+                    double todaysIncome = 0;
+                    for (Transaction t : fetchedTransactions) {
+                        if ("expense".equalsIgnoreCase(t.getType())) {
+                            todaysExpenses += t.getAmount();
+                        } else if ("income".equalsIgnoreCase(t.getType())) {
+                            todaysIncome += t.getAmount();
+                        }
+                    }
+
+                    // Update all UI components with the calculated values
+                    tvIncomeValue.setText(currencyFormatter.format(todaysIncome));
+                    tvExpenseValue.setText(currencyFormatter.format(todaysExpenses));
+                    String dailySummaryText = String.format(Locale.getDefault(), "%s spent of %s daily limit",
+                            currencyFormatter.format(todaysExpenses),
+                            currencyFormatter.format(dailySpendingLimit));
+                    tvDailySpendingSummary.setText(dailySummaryText);
+                    updateSpendingLimitUI(todaysExpenses, dailySpendingLimit);
+
+
                     if (transactionList.isEmpty()) {
                         tvNoTransactions.setText("No transactions for today.");
                         tvNoTransactions.setVisibility(View.VISIBLE);
@@ -318,7 +333,7 @@ public class HomeFragment extends Fragment {
                         rvTodaysTransactions.setVisibility(View.VISIBLE);
                     }
                 } else if (response.code() == 401) {
-                    // Auth issues handled by other calls typically, no specific UI for just this
+                    // Auth issues handled by other calls
                 } else {
                     String errorMsg = parseErrorBody(response);
                     Log.e(TAG, "Failed to fetch transactions. " + errorMsg);
@@ -348,7 +363,7 @@ public class HomeFragment extends Fragment {
     private void handleLogout() {
         if (getContext() == null) return;
         AuthTokenManager.clearAuthToken(getContext());
-        setSummaryPlaceholders("N/A"); // Resets all UI elements including greeting and bars
+        setSummaryPlaceholders("N/A");
         if (transactionList != null) transactionList.clear();
         if (transactionAdapter != null) transactionAdapter.notifyDataSetChanged();
         if (tvNoTransactions != null) {
@@ -376,7 +391,7 @@ public class HomeFragment extends Fragment {
     public double getCurrentTotalBalance() {
         if (tvTotalBalanceValue == null || currencyFormatter == null) {
             Log.e(TAG, "getCurrentTotalBalance: tvTotalBalanceValue or currencyFormatter is null");
-            return 0.0; // Or -1.0 to indicate an error state
+            return 0.0;
         }
         String balanceText = tvTotalBalanceValue.getText().toString();
         try {
@@ -385,11 +400,11 @@ public class HomeFragment extends Fragment {
                 return balanceNumber.doubleValue();
             } else {
                 Log.e(TAG, "getCurrentTotalBalance: Parsed number is null for text: " + balanceText);
-                return 0.0; // Or -1.0
+                return 0.0;
             }
-        } catch (java.text.ParseException e) { // Explicitly qualify ParseException
+        } catch (java.text.ParseException e) {
             Log.e(TAG, "getCurrentTotalBalance: Could not parse balance text: " + balanceText, e);
-            return 0.0; // Or -1.0, indicating parsing failed
+            return 0.0;
         }
     }
 }
